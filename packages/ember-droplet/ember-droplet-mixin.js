@@ -420,11 +420,13 @@
         _addFile: function(file, valid) {
 
             // Extract the file's extension which allows us to style accordingly.
-            var className = 'extension-%@'.fmt(file.name.match(/\.(.+)$/i)[1]).toLowerCase(),
-				isImage = file.type === 'image/jpeg' || file.type === 'image/jpg' || file.type === 'image/png' || file.type === 'image/gif';
+            var extension = file.name.split('.').pop().toLowerCase(),
+				className = 'extension-%@'.fmt(extension),
+				imageTest = 'image/',
+				isImage = file.type.slice(0, imageTest.length) == imageTest;
 
             // Create the record with its default parameters, and then add it to the collection.
-            var record = { file: file, valid: valid, uploaded: false, deleted: false, className: className, isImage: isImage };
+            var record = { file: file, valid: valid, uploaded: false, deleted: false, className: className, isImage: isImage, extension: extension };
             $ember.get(this, 'files').pushObject(record);
 
             // Voila!
